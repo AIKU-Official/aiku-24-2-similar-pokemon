@@ -32,7 +32,7 @@ environment를 생성하고 아래 코드를 실행하여 dependency들을 설�
 ### 1. dataset/celebs 폴더 안의 celeb benchmark 사용하는 경우
 - **inference_celeb.sh** 파일 실행 혹은 아래 코드 실행
 - 이때 **query_fp**는 **dataset/celebs** 폴더 안의 원하는 파일 경로로 수정
-- 실행 시 output 폴더에 **retrieval_result.png**로 retrieval 결과 저장
+- 실행 시 output 폴더에 **retrieval_result.png**로 retrieval 결과가 저장됨
   
    ```
      export CUDA_VISIBLE_DEVICES=0
@@ -44,7 +44,7 @@ environment를 생성하고 아래 코드를 실행하여 dependency들을 설�
 - **dataset/images 폴더**에 원하는 input image 업로드
 - **inference_user.sh** 파일 실행 혹은 아래 코드 실행
 - 이때 **data_path**와 **query_fp**는 **dataset/images** 폴더 안의 원하는 파일 경로로 수정
-- 실행 시 output 폴더에 **retrieval_result.png**로 retrieval 결과 저장
+- 실행 시 output 폴더에 **retrieval_result.png**로 retrieval 결과가 저장됨
   
    ```
     export CUDA_VISIBLE_DEVICES=0
