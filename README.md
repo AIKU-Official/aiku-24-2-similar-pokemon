@@ -4,27 +4,67 @@
 🎉 20##년 2/겨울학기 AIKU Conference 열심히상 수상!
 
 ## 소개
-
-(프로젝트를 소개해주세요)
+AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 캐릭터 이름을 붙여주곤 하는데, 이걸 서비스로 만들어서 배포해두면 매 기수마다 보다 쉽게 별명을 지어줄 수 있지 않을까 생각하였습니다. 연예인으로 할까 캐릭터로 할까 고민했었는데, 포켓몬스터가 좀 더 어려울 것 같아 프로젝트의 목표를 **닮은 포켓몬 찾기 서비스 배포** 로 정하였습니다. 저희 프로젝트의 성공 기준은 아이쿠 회장 부회장과 비슷한 포켓몬을 찾아 학회원들에게 납득받기입니다.
 
 ## 방법론
+- 사용자가 입력한 이미지와 가장 비슷하게 생긴 포켓몬을 찾아주는, Content Based Image Retrieval(CBIR) 문제를 해결
+- 멀티모달/이미지 분야 연구에서 유사도 비교를 위해 가장 많이 사용되는 두 가지 metric인 CLIP 과 DINOv2 사용
+  - input 이미지와 데이터셋 속 포켓몬 이미지들의 CLIP 및 DINOv2 임베딩 값을 비교하여 가장 유사한 포켓몬을 찾아냄
+- CLIP : 이미지의 전반적인 구조, 색상 등의 high level feature에 집중
+- DINOv2 : 이미지의 디테일한 정보인 low level feature에 집중
+=> 두 가지 벡터 검색의 결과를 emsemble, 벡터 검색 시 FAISS library 사용
+- CLIP embedding을 추출하는 과정에서,
+  - ‘두 이미지의 도메인을 포켓몬스터 애니메이션으로 맞추면 성능이 향상될 것이다’ 라는 가설에 따라
+  - Stable Diffusion 모델을 포켓몬스터 이미지로 학습시킨 sd-pokemon-diffusers 모델을 Diffusion 기반의 Plug-And-Play 모델에 적용하여 사용자의 이미지를 포켓몬스터 도메인으로 바꾸는 과정을 CLIP score를 비교하는 과정 전에 추가.
+![image](https://github.com/user-attachments/assets/d869e09f-24a9-475d-8f50-f12c52732dea)
 
-(문제를 정의하고 이를 해결한 방법을 가독성 있게 설명해주세요)
 
 ## 환경 설정
 
 (Requirements, Anaconda, Docker 등 프로젝트를 사용하는데에 필요한 요구 사항을 나열해주세요)
 
 ## 사용 방법
+1. dataset/celebs 폴더 안의 celeb benchmark 사용
+   inference_celeb.sh 파일 실행
+   이때 query_fp는 dataset/celebs 폴더 안의 원하는 파일 경로로 수정
+   ```
+     export CUDA_VISIBLE_DEVICES=0
+     python inference_celeb.py \
+        --query_fp "/home/aikusrv04/pokemon/similar_pokemon/dataset/celebs/Paris Hilton.png" \
+        --k 3
+   ```
+3. User가 직접 image 업로드
+   dataset/images 폴더에 input image 업로드
+   inference_user.sh 파일 실행
+   이때 data_path와 query_fp는 dataset/images 폴더 안의 원하는 파일 경로로 수정
+   ```
+    export CUDA_VISIBLE_DEVICES=0
+    python pnp/preprocess.py \
+        --data_path "/home/aikusrv04/pokemon/similar_pokemon/dataset/images/seungryong_kim.jpg" \
+        --save_dir "/home/aikusrv04/pokemon/similar_pokemon/pnp/latents" \
+        --start_index 0
+    
+    python pnp/pnp.py \
+        --data_path "/home/aikusrv04/pokemon/similar_pokemon/dataset/images/seungryong_kim.jpg" \
+        --save_dir "/home/aikusrv04/pokemon/similar_pokemon/dataset/pnp_images"\
+        --start_index 0
+    
+    python inference_user.py \
+        --query_fp "/home/aikusrv04/pokemon/similar_pokemon/dataset/images/seungryong_kim.jpg" \
+        --k 3
+   ```
 
-(프로젝트 실행 방법 (명령어 등)을 적어주세요.)
 
 ## 예시 결과
 
-(사용 방법을 실행했을 때 나타나는 결과나 시각화 이미지를 보여주세요)
+![image](https://github.com/user-attachments/assets/e26bab2c-aa22-45c7-8bc5-d3f7f3c03c3d)
+
+![image](https://github.com/user-attachments/assets/f3110386-e02a-4b8d-a7d0-96be0349b591)
+
 
 ## 팀원
-
-(프로젝트에 참여한 팀원의 이름과 깃헙 프로필 링크, 역할을 작성해주세요)
-
-- [홍길동](홍길동의 github link): (수행한 역할을 나열)
+- [정우성](정우성의 github link): DINO & MODAL
+- [김윤서](김윤서의 github link): DINO & MODAL
+- [조윤지](조윤지의 github link): CLIP & PNP & 코드 정리
+- [정다현](정다현의 github link): CLIP & PNP & 코드 정리
+- [성준영](성준영의 github link): 상임고문
