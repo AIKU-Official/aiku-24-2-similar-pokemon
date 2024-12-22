@@ -1,4 +1,4 @@
-# 프로젝트명
+# 닮은 포켓몬 찾기
 📢 2024년 2/겨울학기 [AIKU](https://github.com/AIKU-Official) 활동으로 진행한 프로젝트입니다
 </br>🎉 2024년 2/겨울학기 AIKU Conference 열심히상 수상!
 
@@ -8,6 +8,7 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
 </br>아래는 닮은 포켓몬 찾기 서비스를 체험해볼 수 있는 데모 사이트입니다. (이미지 클릭 시 이동)
 [![image-클릭 시 이동](https://github.com/user-attachments/assets/c3f7dab6-e447-4346-a3d8-44168b21e1b0)](https://similar-pokemon.vercel.app)
 </br>해당 데모 사이트에서는 속도 저하 문제로 Plug and Play를 이용한 domain 일치 과정은 생략되어 있어, 좀 더 나은 성능을 체험해보고 싶다면 github code를 참고해주시기 바랍니다. 
+</br>프로젝트 관련 더 자세한 사항은 [AIKU 노션](https://www.notion.so/aiku/SIMILAR-POKEMON-01bd5428288b422f97ea7f8457fbde7b)에서 확인하실 수 있습니다.
 
 
 ## 방법론
