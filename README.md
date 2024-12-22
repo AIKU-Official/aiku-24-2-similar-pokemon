@@ -1,7 +1,7 @@
 # 프로젝트명
 
-📢 20##년 2/겨울학기 [AIKU](https://github.com/AIKU-Official) 활동으로 진행한 프로젝트입니다
-🎉 20##년 2/겨울학기 AIKU Conference 열심히상 수상!
+📢 2024년 2/겨울학기 [AIKU](https://github.com/AIKU-Official) 활동으로 진행한 프로젝트입니다
+🎉 2024년 2/겨울학기 AIKU Conference 열심히상 수상!
 
 ## 소개
 AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 캐릭터 이름을 붙여주곤 하는데, 이걸 서비스로 만들어서 배포해두면 매 기수마다 보다 쉽게 별명을 지어줄 수 있지 않을까 생각하였습니다. 연예인으로 할까 캐릭터로 할까 고민했었는데, 포켓몬스터가 좀 더 어려울 것 같아 프로젝트의 목표를 **닮은 포켓몬 찾기 서비스 배포** 로 정하였습니다. 저희 프로젝트의 성공 기준은 아이쿠 회장 부회장과 비슷한 포켓몬을 찾아 학회원들에게 납득받기입니다.
@@ -24,19 +24,19 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
 (Requirements, Anaconda, Docker 등 프로젝트를 사용하는데에 필요한 요구 사항을 나열해주세요)
 
 ## 사용 방법
-1. dataset/celebs 폴더 안의 celeb benchmark 사용
-   inference_celeb.sh 파일 실행
-   이때 query_fp는 dataset/celebs 폴더 안의 원하는 파일 경로로 수정
+#### 1. dataset/celebs 폴더 안의 celeb benchmark 사용
+- inference_celeb.sh 파일 실행 혹은 아래 코드 실행
+- 이때 query_fp는 dataset/celebs 폴더 안의 원하는 파일 경로로 수정
    ```
      export CUDA_VISIBLE_DEVICES=0
      python inference_celeb.py \
         --query_fp "/home/aikusrv04/pokemon/similar_pokemon/dataset/celebs/Paris Hilton.png" \
         --k 3
    ```
-3. User가 직접 image 업로드
-   dataset/images 폴더에 input image 업로드
-   inference_user.sh 파일 실행
-   이때 data_path와 query_fp는 dataset/images 폴더 안의 원하는 파일 경로로 수정
+#### 3. User가 직접 image 업로드
+- dataset/images 폴더에 input image 업로드
+- inference_user.sh 파일 실행 혹은 아래 코드 실행
+- 이때 data_path와 query_fp는 dataset/images 폴더 안의 원하는 파일 경로로 수정
    ```
     export CUDA_VISIBLE_DEVICES=0
     python pnp/preprocess.py \
@@ -56,9 +56,7 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
 
 
 ## 예시 결과
-
-![image](https://github.com/user-attachments/assets/e26bab2c-aa22-45c7-8bc5-d3f7f3c03c3d)
-
+![image](https://github.com/user-attachments/assets/da434bc0-4747-4f7f-9eac-1cdf3c10e1ab)
 ![image](https://github.com/user-attachments/assets/f3110386-e02a-4b8d-a7d0-96be0349b591)
 
 
