@@ -93,7 +93,7 @@ class PNP(nn.Module):
             image = Image.open(os.path.join(image_path, img)).convert('RGB')
             image = image.resize((512, 512), resample=Image.Resampling.LANCZOS)
             image = T.ToTensor()(image).to('cuda')
-            latents_path = os.path.join('/home/aikusrv04/pokemon/similar-pokemon/example/preprocess_forward/', img_name, f'noisy_latents_{self.scheduler.timesteps[0]}.pt')
+            latents_path = os.path.join('/home/aikusrv04/pokemon/similar_pokemon/pnp/latents_forward/', img_name, f'noisy_latents_{self.scheduler.timesteps[0]}.pt')
             noisy_latent = torch.load(latents_path).to('cuda')
             # breakpoint()
             # self.image, self.eps = image, noisy_latent
@@ -144,34 +144,34 @@ class PNP(nn.Module):
 
 
 
-############## retrieval이랑 병렬적으로 실행할 때 #################333
-# if __name__ == '__main__':
-#     device = 'cuda'
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('--data_path', type=str, default='data/')
-#     parser.add_argument('--save_dir', type=str, default='output')
-#     parser.add_argument('--start_index', type=int, default=0)
-#     opt = parser.parse_args()
-
-#     os.makedirs(opt.save_dir, exist_ok=True)
-#     seed_everything(1)
-
-#     pnp = PNP(opt)
-#     pnp.run_pnp()
-
-############## retrieval이랑 같이 실행할 때######################
-
-
-def run_pnp_with_arguments(data_path='data/', save_dir='output', start_index=0):
-
+############# retrieval이랑 병렬적으로 실행할 때 #################333
+if __name__ == '__main__':
     device = 'cuda'
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data_path', type=str, default=data_path)
-    parser.add_argument('--save_dir', type=str, default=save_dir)
-    parser.add_argument('--start_index', type=int, default=start_index)
-    opt = parser.parse_args([])  # 빈 리스트로 args를 초기화합니다.
+    parser.add_argument('--data_path', type=str, default='data/')
+    parser.add_argument('--save_dir', type=str, default='output')
+    parser.add_argument('--start_index', type=int, default=0)
+    opt = parser.parse_args()
 
     os.makedirs(opt.save_dir, exist_ok=True)
     seed_everything(1)
+
     pnp = PNP(opt)
     pnp.run_pnp()
+
+# ############## retrieval이랑 같이 실행할 때######################
+
+
+# def run_pnp_with_arguments(data_path='data/', save_dir='output', start_index=0):
+
+#     device = 'cuda'
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('--data_path', type=str, default=data_path)
+#     parser.add_argument('--save_dir', type=str, default=save_dir)
+#     parser.add_argument('--start_index', type=int, default=start_index)
+#     opt = parser.parse_args([])  # 빈 리스트로 args를 초기화합니다.
+
+#     os.makedirs(opt.save_dir, exist_ok=True)
+#     seed_everything(1)
+#     pnp = PNP(opt)
+#     pnp.run_pnp()
