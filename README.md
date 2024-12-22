@@ -21,6 +21,8 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
 - CLIP embedding 추출 과정에서,
   - ‘**두 이미지**의 **도메인**을 포켓몬스터 애니메이션으로 **맞추면** **성능이 향상될 것이다**’ 라는 가설에 따라
   - Stable Diffusion 모델을 포켓몬스터 이미지로 학습시킨 **sd-pokemon-diffusers 모델**을 Diffusion 기반의 **Plug-and-Play 모델**에 적용하여 **사용자의 이미지를 포켓몬스터 도메인으로 바꾸는 과정**을 CLIP score 비교 전에 실행
+  - Plug-and-Play 모델: [Github](https://pnp-diffusion.github.io/)
+  - sd-pokemon-diffusers : [Github](https://huggingface.co/lambdalabs/sd-pokemon-diffusers)
     
 ![image](https://github.com/user-attachments/assets/e683a31a-f580-4273-bf07-66f47f7051af)
 <div align="center">Overall Architecture</div>
