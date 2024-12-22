@@ -1,8 +1,6 @@
 # 프로젝트명
 📢 2024년 2/겨울학기 [AIKU](https://github.com/AIKU-Official) 활동으로 진행한 프로젝트입니다
 🎉 2024년 2/겨울학기 AIKU Conference 열심히상 수상!
-📢 2024년 2/겨울학기 [AIKU](https://github.com/AIKU-Official) 활동으로 진행한 프로젝트입니다
-🎉 2024년 2/겨울학기 AIKU Conference 열심히상 수상!
 
 ## 소개
 AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 캐릭터 이름을 붙여주곤 하는데, 이걸 서비스로 만들어서 배포해두면 매 기수마다 보다 쉽게 별명을 지어줄 수 있지 않을까 생각하였습니다. 연예인으로 할까 캐릭터로 할까 고민했었는데, 포켓몬스터가 좀 더 어려울 것 같아 프로젝트의 목표를 **닮은 포켓몬 찾기 서비스 배포** 로 정하였습니다. 저희 프로젝트의 성공 기준은 아이쿠 회장 부회장과 비슷한 포켓몬을 찾아 학회원들에게 납득받기입니다.
@@ -18,18 +16,6 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
   - ‘**두 이미지**의 **도메인**을 포켓몬스터 애니메이션으로 **맞추면** **성능이 향상될 것이다**’ 라는 가설에 따라
   - Stable Diffusion 모델을 포켓몬스터 이미지로 학습시킨 **sd-pokemon-diffusers 모델**을 Diffusion 기반의 **Plug-And-Play 모델**에 적용하여 **사용자의 이미지를 포켓몬스터 도메인으로 바꾸는 과정**을 CLIP score를 비교하는 과정 전에 추가
 ![image](https://github.com/user-attachments/assets/d869e09f-24a9-475d-8f50-f12c52732dea)
-
-- 사용자가 입력한 이미지와 가장 비슷하게 생긴 포켓몬을 찾아주는, **Content Based Image Retrieval(CBIR)** 문제를 해결
-- 멀티모달/이미지 분야 연구에서 유사도 비교를 위해 가장 많이 사용되는 두 가지 metric인 **CLIP** 과 **DINOv2** 사용
-  - input 이미지와 데이터셋 속 포켓몬 이미지들의 **CLIP 및 DINOv2 임베딩 값을 비교**하여 가장 유사한 포켓몬을 찾아냄
-- **CLIP** : 이미지의 전반적인 구조, 색상 등의 **high level feature**에 집중
-- **DINOv2** : 이미지의 디테일한 정보인 **low level feature**에 집중
-    => 두 가지 벡터 검색의 결과를 **emsemble**, 벡터 검색 시 **FAISS library** 사용
-- CLIP embedding을 추출하는 과정에서,
-  - ‘**두 이미지**의 **도메인**을 포켓몬스터 애니메이션으로 **맞추면** **성능이 향상될 것이다**’ 라는 가설에 따라
-  - Stable Diffusion 모델을 포켓몬스터 이미지로 학습시킨 **sd-pokemon-diffusers 모델**을 Diffusion 기반의 **Plug-And-Play 모델**에 적용하여 **사용자의 이미지를 포켓몬스터 도메인으로 바꾸는 과정**을 CLIP score를 비교하는 과정 전에 추가
-![image](https://github.com/user-attachments/assets/d869e09f-24a9-475d-8f50-f12c52732dea)
-
 
 ## 환경 설정
 
