@@ -12,7 +12,7 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
   - input 이미지와 데이터셋 속 포켓몬 이미지들의 CLIP 및 DINOv2 임베딩 값을 비교하여 가장 유사한 포켓몬을 찾아냄
 - CLIP : 이미지의 전반적인 구조, 색상 등의 high level feature에 집중
 - DINOv2 : 이미지의 디테일한 정보인 low level feature에 집중
-=> 두 가지 벡터 검색의 결과를 emsemble, 벡터 검색 시 FAISS library 사용
+- => 두 가지 벡터 검색의 결과를 emsemble, 벡터 검색 시 FAISS library 사용
 - CLIP embedding을 추출하는 과정에서,
   - ‘두 이미지의 도메인을 포켓몬스터 애니메이션으로 맞추면 성능이 향상될 것이다’ 라는 가설에 따라
   - Stable Diffusion 모델을 포켓몬스터 이미지로 학습시킨 sd-pokemon-diffusers 모델을 Diffusion 기반의 Plug-And-Play 모델에 적용하여 사용자의 이미지를 포켓몬스터 도메인으로 바꾸는 과정을 CLIP score를 비교하는 과정 전에 추가.
