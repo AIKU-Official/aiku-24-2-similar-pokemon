@@ -19,11 +19,15 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
 ![image](https://github.com/user-attachments/assets/e683a31a-f580-4273-bf07-66f47f7051af)
 <div align="center">Overall Architecture</div>
 
-
 ## 환경 설정
+사용하고 싶은 Environment를 생성하고 dependency들을 아래 코드를 실행하여 설치
 
-(Requirements, Anaconda, Docker 등 프로젝트를 사용하는데에 필요한 요구 사항을 나열해주세요)
-
+  ```
+    conda create -n env_name python=3.9
+    conda activate env_name
+    pip install -r requirements.txt
+  ```
+    
 ## 사용 방법
 ### 1. dataset/celebs 폴더 안의 celeb benchmark 사용하는 경우
 - **inference_celeb.sh** 파일 실행 혹은 아래 코드 실행
@@ -59,14 +63,12 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
         --k 3
    ```
 
-
 ## 예시 결과
 ![image](https://github.com/user-attachments/assets/da434bc0-4747-4f7f-9eac-1cdf3c10e1ab)
 <div align="center">Beyonce 사진으로 retrieval 한 결과</div>
 
 ![image](https://github.com/user-attachments/assets/f3110386-e02a-4b8d-a7d0-96be0349b591)
 <div align="center">Paris Hilton 사진으로 retrieval 한 결과</div>
-
 
 ## 팀원
 - [정우성](정우성의 [github link](https://github.com/mung3477)): DINO & MODAL
