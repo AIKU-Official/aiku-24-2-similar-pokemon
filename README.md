@@ -20,7 +20,7 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
 <div align="center">Overall Architecture</div>
 
 ## 환경 설정
-사용하고 싶은 Environment를 생성하고 dependency들을 아래 코드를 실행하여 설치
+environment를 생성하고 dependency들을 아래 코드를 실행하여 설치
 
   ```
     conda create -n env_name python=3.9
