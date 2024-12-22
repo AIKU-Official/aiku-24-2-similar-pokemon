@@ -10,6 +10,7 @@ from CLIP import CLIP
 from DINO import DINO
 from PIL import Image
 import argparse
+import os
 
 
 
@@ -90,7 +91,8 @@ def main():
     query_img_fp = Path(args.query_fp)
     # breakpoint()
     query_img_clip_fp = args.query_fp.replace("/images/", "/pnp_images/")
-    query_img_clip_fp = query_img_clip_fp.replace(".jpg", ".png")
+    if os.path.splitext(query_img_clip_fp)[1] ==".jpg" :
+        query_img_clip_fp = query_img_clip_fp.replace(".jpg", ".png")
 
     query_img_clip_fp = Path(query_img_clip_fp)
 
