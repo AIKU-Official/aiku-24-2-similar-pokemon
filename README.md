@@ -33,7 +33,7 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
         --query_fp "/home/aikusrv04/pokemon/similar_pokemon/dataset/celebs/Paris Hilton.png" \
         --k 3
    ```
-#### 3. User가 직접 image 업로드
+#### 2. User가 직접 image 업로드
 - dataset/images 폴더에 input image 업로드
 - inference_user.sh 파일 실행 혹은 아래 코드 실행
 - 이때 data_path와 query_fp는 dataset/images 폴더 안의 원하는 파일 경로로 수정
@@ -64,5 +64,5 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
 - [정우성](정우성의 github link): DINO & MODAL
 - [김윤서](김윤서의 github link): DINO & MODAL
 - [조윤지](조윤지의 github link): CLIP & PNP & 코드 정리
-- [정다현](정다현의 github link): CLIP & PNP & 코드 정리
+- [정다현](정다현의 [github link](https://github.com/dhyun22)): CLIP & PNP & 코드 정리
 - [성준영](성준영의 github link): 상임고문
