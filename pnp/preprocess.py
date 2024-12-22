@@ -18,7 +18,6 @@ import re
 
 
 def get_timesteps(scheduler, num_inference_steps, strength, device):
-    # get the original timestep using init_timestep
     init_timestep = min(int(num_inference_steps * strength), num_inference_steps)
 
     t_start = max(num_inference_steps - init_timestep, 0)
@@ -151,41 +150,10 @@ class Preprocess(nn.Module):
                                                  timesteps_to_save=timesteps_to_save)
         rgb_reconstruction = self.decode_latents(latent_reconstruction)
 
-        return rgb_reconstruction  # , latent_reconstruction
+        return rgb_reconstruction  
 
 
-# def run(opt):
-#     # timesteps to save
-
-#     model_key = "lambdalabs/sd-pokemon-diffusers"       
-#     toy_scheduler = DDIMScheduler.from_pretrained(model_key, subfolder="scheduler")
-#     toy_scheduler.set_timesteps(opt.save_steps)
-#     timesteps_to_save, num_inference_steps = get_timesteps(toy_scheduler, num_inference_steps=opt.save_steps,
-#                                                            strength=1.0,
-#                                                            device=device)
-
-#     seed_everything(1)
-
-#     extraction_path_prefix = "_reverse" if opt.extract_reverse else "_forward"
-#     save_path = os.path.join(opt.save_dir + extraction_path_prefix, os.path.splitext(os.path.basename(opt.data_path))[0])
-#     os.makedirs(save_path, exist_ok=True)
-
-#     model = Preprocess(device, hf_key=None)
-#     recon_image = model.extract_latents(data_path=opt.data_path,
-#                                          num_steps=opt.steps,
-#                                          save_path=save_path,
-#                                          timesteps_to_save=timesteps_to_save,
-#                                          inversion_prompt='human',
-#                                          extract_reverse=opt.extract_reverse)
-
-
-
-
-
-
-##############병렬적으로 실행할 때#################3
 def run(opt):
-    # timesteps to save
     model_key = "lambdalabs/sd-pokemon-diffusers"       
     toy_scheduler = DDIMScheduler.from_pretrained(model_key, subfolder="scheduler")
     toy_scheduler.set_timesteps(opt.save_steps)
@@ -197,40 +165,34 @@ def run(opt):
 
     model = Preprocess(device, hf_key=None)
 
-    # # Check if data_path is a directory
-    # if os.path.isdir(opt.data_path):
-    #     image_paths = glob.glob(os.path.join(opt.data_path, "*.jpg")) + glob.glob(os.path.join(opt.data_path, "*.png"))
-    # else:
-    #     image_paths = [opt.data_path]
-
     image_path=opt.data_path
-    file_list = os.listdir(image_path)
+    if os.path.isdir(image_path):
+        # If it's a directory, list & sort the files
+        file_list = os.listdir(image_path)
+        
+        def natural_sort_key(s):
+            return [
+                int(text) if text.isdigit() else text.lower()
+                for text in re.split(r'(\d+)', s)
+            ]
+        sorted_files = sorted(file_list, key=natural_sort_key)
+    else:
+        sorted_files = [image_path]
     
     
-    def natural_sort_key(s):
-        return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
-    sorted_files = sorted(file_list, key=natural_sort_key)
-    # file_path = f"{output_dir}/output.txt"
-
-    # output_lst = []
-    # with open(file_path, 'r', encoding='utf-8') as file:  # utf-8 인코딩을 설정합니다
-    #     for line in file:
-    #         output_lst.append(line.strip())
     
     img_idx=0
     for img in tqdm(sorted_files):
-        img_name = os.path.splitext(img)[0]
-        # output_img = f"{output_dir}/{img_name}.png"
-        # if (os.path.exists(output_img)) or (img_idx < opt.start_index) or (img in output_lst):
+        if os.path.isdir(image_path):
+            file_fullpath = os.path.join(image_path, img)
+        else:
+            file_fullpath = image_path
+        img_name = os.path.splitext(os.path.basename(file_fullpath))[0]
         if (img_idx < opt.start_index):
             print(f"{img_name} skipping!")
             img_idx += 1
             continue
         
-        # image_pil, image = load_image(os.path.join(image_path,img))
-
-
-    # for image_path in tqdm(image_paths, desc="Processing Images"):
         extraction_path_prefix = "_reverse" if opt.extract_reverse else "_forward"
         save_path = os.path.join(opt.save_dir + extraction_path_prefix, img_name)
         os.makedirs(save_path, exist_ok=True)
@@ -241,9 +203,6 @@ def run(opt):
                                             timesteps_to_save=timesteps_to_save,
                                             inversion_prompt='human',
                                             extract_reverse=opt.extract_reverse)
-
-    # T.ToPILImage()(recon_image[0]).save(os.path.join(save_path, f'recon.jpg'))
-
 
 
 if __name__ == "__main__":
@@ -258,82 +217,3 @@ if __name__ == "__main__":
     parser.add_argument('--start_index', type=int, default=0)
     opt = parser.parse_args()
     run(opt)
-
-
-# ##############retrieval이랑 같이 실행할 때 #############3
-# def run_preprocess(data_path, save_dir, steps=999, save_steps=1000, extract_reverse=False, start_index=0, device="cuda"):
-#     """
-#     Preprocess.py에서 실행 부분을 함수화한 코드.
-    
-#     Args:
-#         data_path (str): 입력 데이터 경로 (파일 또는 디렉토리).
-#         save_dir (str): 출력 디렉토리 경로.
-#         steps (int): 디노이징 과정의 단계 수.
-#         save_steps (int): 저장 간격.
-#         extract_reverse (bool): 역 디노이징 과정 여부.
-#         start_index (int): 처리 시작 인덱스.
-#         device (str): 처리에 사용할 장치 ("cuda" 또는 "cpu").
-#     """
-#     # timesteps를 설정
-#     model_key = "lambdalabs/sd-pokemon-diffusers"       
-#     toy_scheduler = DDIMScheduler.from_pretrained(model_key, subfolder="scheduler")
-#     toy_scheduler.set_timesteps(save_steps)
-#     timesteps_to_save, num_inference_steps = get_timesteps(toy_scheduler, num_inference_steps=save_steps,
-#                                                            strength=1.0, device=device)
-
-#     # 재현성 설정
-#     seed_everything(1)
-
-#     # 모델 초기화
-#     model = Preprocess(device, hf_key=None)
-
-#     # 이미지 경로 처리
-#     if os.path.isdir(data_path):
-#         file_list = os.listdir(data_path)
-#         def natural_sort_key(s):
-#             return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
-#         sorted_files = sorted(file_list, key=natural_sort_key)
-#     else:
-#         sorted_files = [data_path]
-
-#     img_idx = 0
-#     for img in tqdm(sorted_files, desc="Processing Images"):
-#         img_name = os.path.splitext(os.path.basename(img))[0]
-#         if img_idx < start_index:
-#             print(f"{img_name} skipping!")
-#             img_idx += 1
-#             continue
-
-#         # 출력 경로 설정
-#         extraction_path_prefix = "_reverse" if extract_reverse else "_forward"
-#         save_path = os.path.join(save_dir + extraction_path_prefix, img_name)
-#         os.makedirs(save_path, exist_ok=True)
-
-#         # 라텐트 추출
-#         recon_image = model.extract_latents(data_path=os.path.join(data_path, img),
-#                                             num_steps=steps,
-#                                             save_path=save_path,
-#                                             timesteps_to_save=timesteps_to_save,
-#                                             inversion_prompt='human',
-#                                             extract_reverse=extract_reverse)
-#         print(f"Processed {img_name}, saved to {save_path}")
-
-
-# if __name__ == "__main__":
-#     device = 'cuda'
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('--data_path', type=str, default="/home/aikusrv04/pokemon/similar-pokemon/example", help="Input data path (image or directory).")
-#     parser.add_argument('--save_dir', type=str, default="/home/aikusrv04/pokemon/similar-pokemon/pnp/output/preprocess", help="Directory to save the outputs.")
-#     parser.add_argument('--steps', type=int, default=999, help="Number of denoising steps.")
-#     parser.add_argument('--save_steps', type=int, default=1000, help="Timesteps for saving.")
-#     parser.add_argument('--extract_reverse', default=False, action='store_true', help="Extract features during the denoising process.")
-#     parser.add_argument('--start_index', type=int, default=0, help="Start index for processing images.")
-#     opt = parser.parse_args()
-
-#     run_preprocess(data_path=opt.data_path, 
-#                    save_dir=opt.save_dir, 
-#                    steps=opt.steps, 
-#                    save_steps=opt.save_steps, 
-#                    extract_reverse=opt.extract_reverse, 
-#                    start_index=opt.start_index, 
-#                    device=device)

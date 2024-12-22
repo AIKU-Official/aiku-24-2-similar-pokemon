@@ -13,8 +13,6 @@ import argparse
 import os
 
 
-
-
 def parse_args():
     parser = argparse.ArgumentParser(description='Arguments')
     parser.add_argument('--query_fp', type=str, default="query.jpg")
@@ -23,15 +21,9 @@ def parse_args():
     return parser.parse_args()
 
 
-# def prepare(self):
-# 	DINO = DINO(index_path="similar_pokemon/faiss_indexes/DINO_faiss_index.bin")
-# 	CLIP = CLIP(index_path="similar_pokemon/faiss_indexes/CLIP_faiss_index.bin")
-# 	with open("pokemon_list.pkl", "rb") as file:
-# 		pokemons = pickle.load(file)
-
-
 DINO = DINO(index_path="/home/aikusrv04/pokemon/similar_pokemon/faiss_indexes/DINO_faiss_index.bin")
 CLIP = CLIP(index_path="/home/aikusrv04/pokemon/similar_pokemon/faiss_indexes/CLIP_faiss_index.bin")
+
 def examine_similarity(image_file, image_file_clip):
 
     with open("/home/aikusrv04/pokemon/similar_pokemon/pokemon_list.pkl", "rb") as file:
@@ -39,7 +31,6 @@ def examine_similarity(image_file, image_file_clip):
 
     DINO_scores, DINO_indexes = DINO(image_file, k=len(pokemons))
     CLIP_scores, CLIP_indexes = CLIP(image_file_clip, k=len(pokemons))
-    # breakpoint()
     dino_df = pd.DataFrame({"index": DINO_indexes, "score": DINO_scores})
     clip_df = pd.DataFrame({"index": CLIP_indexes, "score": CLIP_scores})
     merged_df = pd.merge(dino_df, clip_df, on="index", suffixes=("_dino", "_clip"))
@@ -58,14 +49,12 @@ def examine_similarity(image_file, image_file_clip):
     for each_path in top_3_paths_temp:
         new_path = each_path.replace("/vol/", "/home/aikusrv04/pokemon/similar_pokemon/dataset/")
         top_3_paths.append(new_path)
-    breakpoint()
     print(f"TOP_3_PATHS: {top_3_paths}")
     return top_3_paths
 
 def retrieve_images(paths: List[str]):
     images = []
     for img_path in paths:
-        # print(f"Processing image: {img_path}")
         img = cv2.imread(img_path)
         if img is None:
             print(f"Warning: Image at {img_path} could not be loaded. Skipping.")
@@ -76,7 +65,6 @@ def retrieve_images(paths: List[str]):
     return images
 
 def save_results_to_canvas(query_img, results, save_path):
-
     w, h = query_img.size
     canvas = Image.new("RGB", (4 * w, h), color='white')
     canvas.paste(query_img, (0, 0))
@@ -89,33 +77,22 @@ def save_results_to_canvas(query_img, results, save_path):
 def main():
     args = parse_args()
     query_img_fp = Path(args.query_fp)
-    # breakpoint()
     query_img_clip_fp = args.query_fp.replace("/images/", "/pnp_images/")
-    if os.path.splitext(query_img_clip_fp)[1] ==".jpg" :
-        query_img_clip_fp = query_img_clip_fp.replace(".jpg", ".png")
+    if os.path.splitext(query_img_clip_fp)[1] != ".png" :
+        ext = os.path.splitext(query_img_clip_fp)[1]
+        query_img_clip_fp = query_img_clip_fp.replace(ext, ".png")
 
     query_img_clip_fp = Path(query_img_clip_fp)
-
     assert query_img_fp.is_file(), f"File does not exist: {query_img_fp}"
-
-    # with open('/home/aikusrv04/pokemon/similar_pokemon/CLIP/embeddings.json', 'r') as f:
-    #     embeddings = json.load(f)
-    # # embeddings = {key.replace("../", ""): value for key, value in embeddings.items()}
-    # image_paths = list(embeddings.keys())
 
     query_img = cv2.cvtColor(cv2.resize(cv2.imread(str(query_img_fp)), (416, 416)), cv2.COLOR_BGR2RGB)
     query_img = Image.fromarray(query_img)
     query_img_clip = cv2.cvtColor(cv2.resize(cv2.imread(str(query_img_clip_fp)), (416, 416)), cv2.COLOR_BGR2RGB)
     query_img_clip = Image.fromarray(query_img_clip)
 
-    # modes = [("clip", "clip_result3.png"), ("dino", "dino_result3.png"), ("average", "average_result3.png")]
-
-    # for mode, save_path in modes:
     top_3_paths = examine_similarity(query_img, query_img_clip)
     results = retrieve_images(top_3_paths)
-
     results = [Image.fromarray(img) for img in results]
-
     save_results_to_canvas(query_img, results, "output/retrieval_result.png")
 
 if __name__ == "__main__":

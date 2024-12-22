@@ -5,12 +5,7 @@ import faiss
 import torch
 
 
-class CLIP:
-    # def load_index(faiss_index_path='faiss_index.bin') -> faiss.IndexFlatL2:
-    #     index = faiss.read_index(faiss_index_path)
-    #     print(f"FAISS index loaded from {faiss_index_path}")
-    #     return index
-    
+class CLIP: 
     def __init__(self, index_path):
         faiss_index = faiss.read_index(index_path)
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

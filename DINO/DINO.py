@@ -8,15 +8,6 @@ from PIL import Image
 
 
 class DINO:
-	# def load_index(self, faiss_index_path='faiss_index.bin') -> faiss.IndexFlatL2:
-	# 	"""
-	# 	Load the index from the specified file.
-	# 	"""
-
-	# 	index = faiss.read_index(faiss_index_path)
-	# 	print(f"FAISS index loaded from {faiss_index_path}")
-	# 	return index
-
 	def __init__(self, index_path):
 		dinov2_vitb14 = torch.hub.load("facebookresearch/dinov2", "dinov2_vitb14")
 		# breakpoint()

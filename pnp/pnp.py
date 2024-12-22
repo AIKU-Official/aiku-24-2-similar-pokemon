@@ -22,7 +22,7 @@ class PNP(nn.Module):
     def __init__(self, opt):
         super().__init__()
         model_key = "lambdalabs/sd-pokemon-diffusers"
-        self.opt = opt  # 옵션 전달
+        self.opt = opt 
         self.image = None
         self.eps = None
 
@@ -84,8 +84,13 @@ class PNP(nn.Module):
 
         img_idx = 0
         for img in tqdm(sorted_files):
-            file_name_with_ext = os.path.basename(img)
+            if os.path.isdir(image_path):
+                img_fullpath = os.path.join(image_path, img)
+            else:
+                img_fullpath = image_path
+            file_name_with_ext = os.path.basename(img_fullpath)
             img_name = os.path.splitext(file_name_with_ext)[0]
+            
             if img_idx < self.opt.start_index:
                 print(f"{img_name} skipping!")
                 img_idx += 1
@@ -95,15 +100,11 @@ class PNP(nn.Module):
             image = T.ToTensor()(image).to('cuda')
             latents_path = os.path.join('/home/aikusrv04/pokemon/similar_pokemon/pnp/latents_forward/', img_name, f'noisy_latents_{self.scheduler.timesteps[0]}.pt')
             noisy_latent = torch.load(latents_path).to('cuda')
-            # breakpoint()
-            # self.image, self.eps = image, noisy_latent
-            # self.img_name = img_name
             yield image, noisy_latent, img_name
-            # break  # 첫 번째 이미지만 로드
 
     @torch.no_grad()
     def denoise_step(self, x, t):
-        register_time(self, t.item())  # `t` 값을 등록
+        register_time(self, t.item()) 
         latent_model_input = torch.cat([self.eps] + [x] * 2)
         text_embed_input = torch.cat([self.pnp_guidance_embeds, self.text_embeds], dim=0)
         noise_pred = self.unet(latent_model_input, t, encoder_hidden_states=text_embed_input)['sample']
@@ -121,10 +122,6 @@ class PNP(nn.Module):
         register_conv_control_efficient(self, self.conv_injection_timesteps)
 
     def run_pnp(self):
-        # pnp_f_t = int(50 * 0.8)
-        # pnp_attn_t = int(50 * 0.5)
-        # self.init_pnp(conv_injection_t=pnp_f_t, qk_injection_t=pnp_attn_t)
-        # edited_img = self.sample_loop(self.eps)
         for image, noisy_latent, img_name in self.load_data():
             self.image = image
             self.eps = noisy_latent
@@ -144,7 +141,6 @@ class PNP(nn.Module):
 
 
 
-############# retrieval이랑 병렬적으로 실행할 때 #################333
 if __name__ == '__main__':
     device = 'cuda'
     parser = argparse.ArgumentParser()
@@ -159,19 +155,3 @@ if __name__ == '__main__':
     pnp = PNP(opt)
     pnp.run_pnp()
 
-# ############## retrieval이랑 같이 실행할 때######################
-
-
-# def run_pnp_with_arguments(data_path='data/', save_dir='output', start_index=0):
-
-#     device = 'cuda'
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('--data_path', type=str, default=data_path)
-#     parser.add_argument('--save_dir', type=str, default=save_dir)
-#     parser.add_argument('--start_index', type=int, default=start_index)
-#     opt = parser.parse_args([])  # 빈 리스트로 args를 초기화합니다.
-
-#     os.makedirs(opt.save_dir, exist_ok=True)
-#     seed_everything(1)
-#     pnp = PNP(opt)
-#     pnp.run_pnp()
