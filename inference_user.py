@@ -9,9 +9,7 @@ import pandas as pd
 from CLIP import CLIP
 from DINO import DINO
 from PIL import Image
-from utils import retrieve_pokemon_images
 import argparse
-import json
 
 
 
