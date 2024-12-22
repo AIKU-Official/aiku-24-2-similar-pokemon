@@ -81,6 +81,6 @@ environment를 생성하고 아래 코드를 실행하여 dependency들을 설�
 | [정우성](https://github.com/mung3477) |    DINO & MODAL    |
 | [김윤서](https://github.com/hiyseo)      |    DINO & MODAL    |
 | [조윤지](https://github.com/robosun78)     |    CLIP & PNP & 코드 정리    |
-| [정다현](https://github.com/imjunghyunee)        |    CLIP & PNP & 코드 정리    |
+| [정다현](https://github.com/dhyun22)        |    CLIP & PNP & 코드 정리    |
 | [성준영](https://github.com/joonyeongs) |    상임고문    |
 
