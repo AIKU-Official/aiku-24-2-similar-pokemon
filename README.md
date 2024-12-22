@@ -8,7 +8,8 @@ AIKU에서는 매 기수마다 팀원들끼리 서로 닮은 연예인 또는 �
 </br>아래는 닮은 포켓몬 찾기 서비스를 체험해볼 수 있는 데모 사이트입니다. 
 <div align="center">
 [![image](https://github.com/user-attachments/assets/c3f7dab6-e447-4346-a3d8-44168b21e1b0)](https://similar-pokemon.vercel.app)
-🌟[[Demo Site](https://similar-pokemon.vercel.app/)]🌟</div>
+🌟[[Demo Site](https://similar-pokemon.vercel.app/)]🌟
+</div>
 </br>해당 데모 사이트에서는 속도 저하 문제로 Plug and Play를 이용한 domain 일치 과정은 생략되어 있어, 좀 더 나은 성능을 체험해보고 싶다면 github code를 참고해주시기 바랍니다. 
 
 
